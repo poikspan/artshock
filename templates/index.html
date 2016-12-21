@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:8080');
+            socket.on('new-mood', function (data) {
+                console.log(data);
+                addData(data.mood);
+                //socket.emit('my other event', { my: 'data' });
+            });
+
+            function addData(data) {
+                var container = document.getElementById('mood-container');
+                var div = document.createElement("div");
+                div.setAttribute("class","mood");
+                div.innerHTML = data.messageText;
+                container.appendChild(div);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="mood-container">
+        </div>
+    </body>
+</html>
