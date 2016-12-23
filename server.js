@@ -18,21 +18,25 @@ var moodCtrl = require('./app/controllers/mood.js');
 mongoose.connect(database.url);
 console.log("Connected to database.");
 
-var sass = require('node-sass');
-var cssFile = './public/css/artshock.css';
-sass.render({
-  file: './sass/artshock.scss',
-  outFile: cssFile
-}, function(error, result) { 
-    if(!error){
-      // No errors during the compilation, write this result on the disk
-      fs.writeFile(cssFile, result.css, function(err){
-        if(!err){
-            console.log('Css compiled!');
+var env = process.env.NODE_ENV || 'dev';
+
+if ( env == 'dev') {
+    var sass = require('node-sass');
+    var cssFile = './public/css/artshock.css';
+    sass.render({
+      file: './sass/artshock.scss',
+      outFile: cssFile
+    }, function(error, result) { 
+        if(!error){
+          // No errors during the compilation, write this result on the disk
+          fs.writeFile(cssFile, result.css, function(err){
+            if(!err){
+                console.log('Css compiled!');
+            }
+          });
         }
-      });
-    }
-});
+    });    
+}
 
 io = require('socket.io')(server);
 
