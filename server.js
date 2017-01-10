@@ -20,6 +20,7 @@ console.log("Connected to database.");
 
 var env = process.env.NODE_ENV || 'dev';
 
+//For some reason AZURE can not install node-sass correctly, so using generated css on production, yaiks
 if ( env == 'dev') {
     var sass = require('node-sass');
     var cssFile = './public/css/artshock.css';

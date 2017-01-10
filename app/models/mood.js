@@ -14,8 +14,9 @@ var moodSchema = mongoose.Schema({
     moodType: {type: String, required: true},
     title: {type: String, required: true},
     text: {type: String, required: false},
-    fileType: {type: String, required: true},
-    filePath: {type: String, required: true}
+    soundfilePath: {type: String, required: false},
+    videofilePath: {type: String, required: false},
+    imagefilePath: {type: String, required: false},    
 });
 
 module.exports = mongoose.model('Mood', moodSchema);
