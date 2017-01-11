@@ -47,6 +47,7 @@ app.get('/', function (req, res) {
 });
 
 var Mood = require('./app/models/mood');
+var MoodEntry = require('./app/models/moodEntry');
 
 io.on('connection', function (socket) {
   setInterval(function() {
@@ -63,6 +64,14 @@ io.on('connection', function (socket) {
               Mood.findOne(queryParams).lean().exec(
                 function (err, result) {
                   if (!err && result) {
+                    moodEntry = new MoodEntry();
+                    moodEntry.moodType = result.moodType;
+                    moodEntry.moodId = result._id;
+                    moodEntry.save(function(err) {
+                      if ( err ) {
+                        console.log(err);
+                      }
+                    });
                     socket.emit('new-mood', { mood: result });
                   }
                 })
