@@ -15,6 +15,7 @@ var mood = require('./app/models/mood.js');
 var moodCtrl = require('./app/controllers/mood.js');
 
 // Connnect to database
+mongoose.Promise = global.Promise;
 mongoose.connect(database.url);
 console.log("Connected to database.");
 
@@ -45,16 +46,31 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/templates/index.html');
 });
 
+var Mood = require('./app/models/mood');
+
 io.on('connection', function (socket) {
-    setInterval(function() {
-        moodCtrl.readMood(function(message) {
-            console.log("Message: ", message);
-            if (typeof message !== 'undefined' && message !== null) {
-                socket.emit('new-mood', {mood:message});
-            }
-        });
-    }, 3 * 1000); // 3 * 1000 milsec 
-    // socket.on('other_event', function (data) {
-    //     console.log(data);
-    // });
+  setInterval(function() {
+      moodCtrl.readMood(function(message) {
+          console.log("Message: ", message);
+          if (typeof message !== 'undefined' && message !== null) {
+            //TODO real mood from message
+            var queryParams = { moodType: 'anger' };
+            // Count all moods with moodType
+            Mood.count(queryParams).exec(function (err, count) {
+              // Get a random entry
+              var random = Math.floor(Math.random() * count)
+              // Again query all moods for moodType but only fetch one offset by our random #
+              Mood.findOne(queryParams).lean().exec(
+                function (err, result) {
+                  if (!err && result) {
+                    socket.emit('new-mood', { mood: result });
+                  }
+                })
+            })
+          }
+      });
+  }, 5 * 1000);
+  // socket.on('other_event', function (data) {
+  //     console.log(data);
+  // });
 });
