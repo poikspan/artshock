@@ -9,4 +9,5 @@ body {
       width: 45%;
       font-size: 2em; }
       body #mood-container > .mood > img {
-        display: block; }
+        display: block;
+        max-width: 600px; }
