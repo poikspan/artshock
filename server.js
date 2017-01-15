@@ -42,6 +42,7 @@ if ( env == 'dev') {
 
 io = require('socket.io')(server);
 
+app.use(express.static('public'));
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/templates/index.html');
 });
@@ -52,10 +53,15 @@ var MoodEntry = require('./app/models/moodEntry');
 io.on('connection', function (socket) {
   setInterval(function() {
       moodCtrl.readMood(function(message) {
-          console.log("Message: ", message);
           if (typeof message !== 'undefined' && message !== null) {
-            //TODO real mood from message
-            var queryParams = { moodType: 'anger' };
+            /*“anger” > vihainen
+              “disgust” > inhottava
+              “fear” > pelokas
+              “happiness” > onnellinen
+              “sadness” > surullinen
+              “surprise” > yllättynyt*/
+            var moodString =  Buffer.from(message.messageText, 'base64');
+            var queryParams = { moodType: moodString };
             // Count all moods with moodType
             Mood.count(queryParams).exec(function (err, count) {
               // Get a random entry

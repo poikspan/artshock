@@ -2,28 +2,42 @@
 <html>
     <head>
         <script src="/socket.io/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/color/jquery.color-2.1.2.js"></script>        
         <script>
             var socket = io.connect('http://'+window.location.host);
-            //socket.emit('open-ui', {});
             socket.on('new-mood', function (data) {
-                console.log(data);
                 addData(data.mood);
             });
 
+            var MOOD_COLORSET = { anger: 'red', disgust: 'orange', fear: 'yellow', happiness: 'green', sadness: 'grey', surprise: 'cyan'};
+
             function addData(data) {
                 var container = document.getElementById('mood-container');
+                $(container).empty();
                 var div = document.createElement("div");
+                $(div).hide();
                 div.setAttribute("class","mood");
-                console.log(data.imageFilePath);
                 div.innerHTML = data.title;
                 if ( data.imageFilePath ) {
                     var image = document.createElement("img");
                     image.setAttribute('src', data.imageFilePath);
                     div.appendChild(image);                    
                 }
+                if ( data.soundFilePath && !data.videoFilePath ) {
+                    // var audio = new Audio('');
+                    // audio.play();                     
+                    console.log('TODO sound: ',data.soundFilePath);
+                }
+                if ( data.videoFilePath && !data.imageFilePath ) {
+                    console.log('TODO video: ',data.videoFilePath);
+                }
                 container.appendChild(div);
+                $('body').animate({ backgroundColor: MOOD_COLORSET[data.moodType] }, 1000);
+                $(div).show('slow');
             }
         </script>
+        <link rel="stylesheet" type="text/css" href="./css/artshock.css">
     </head>
     <body>
         <div id="mood-container">
