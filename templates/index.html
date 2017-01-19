@@ -8,6 +8,7 @@
             var socket = io.connect('http://'+window.location.host);
             socket.on('new-mood', function (data) {
                 addData(data.mood);
+                console.log(data.mood);
             });
 
             var MOOD_COLORSET = { anger: 'red', disgust: 'orange', fear: 'yellow', happiness: 'green', sadness: 'grey', surprise: 'cyan'};
