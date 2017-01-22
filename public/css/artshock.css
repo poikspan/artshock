@@ -17,7 +17,6 @@ body {
     position: absolute;
     top: 0;
     width: 100%;
-    background-color: cyan;
     left: 0; }
   body #right {
     height: 100%;

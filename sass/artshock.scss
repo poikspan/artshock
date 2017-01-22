@@ -27,7 +27,6 @@ body {
     #left {
         @include basic-settings;
         width: 100%;
-        background-color: cyan;
         left: 0;
     }
 
