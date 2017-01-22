@@ -63,13 +63,7 @@ io.on('connection', function (socket) {
               “surprise” > yllättynyt*/
             var moodString = '';
             console.log('######Tyyppi: ',typeof Buffer.from);
-            if (typeof Buffer.from === "function") {
-                // Node 5.10+
-                moodString = Buffer.from(message.messageText, 'base64');
-            } else {
-                // older Node versions
-                moodString = new Buffer(message.messageText, 'base64');
-            }
+            moodString = new Buffer(message.messageText, 'base64');
             var queryParams = { moodType: moodString };
             // Count all moods with moodType
             Mood.count(queryParams).exec(function (err, count) {
