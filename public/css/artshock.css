@@ -24,7 +24,7 @@ body {
     position: absolute;
     top: 0;
     width: 20%;
-    background-color: grey;
+    background-color: #cdcdcd;
     opacity: 0.85;
     right: 0;
     z-index: 10; }
