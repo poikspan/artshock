@@ -83,7 +83,6 @@
 
                 }
                 var moodColorLight = LightenDarkenColor(MOOD_COLORSET[dominantMood], 195);
-                console.log('väri: ',moodColorLight);
                 $(document).find('#right').css('background-color', '#'+moodColorLight);
                 $('<span class="mood-type">'+dominantMood+'</span>').insertAfter(container.find('img'));
             }
