@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 var database = require('./app/config/database.js');
 var mood = require('./app/models/mood.js');
 var moodCtrl = require('./app/controllers/mood.js');
+var Buffer = require('buffer').Buffer;
 
 // Connnect to database
 mongoose.Promise = global.Promise;
