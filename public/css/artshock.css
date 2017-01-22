@@ -33,7 +33,7 @@ body {
     text-align: center;
     margin: 100px 0px 10px 0px; }
     body #mood-container > img {
-      max-width: 220px; }
+      max-width: 165px; }
     body #mood-container > span {
       display: block;
       text-transform: uppercase;
