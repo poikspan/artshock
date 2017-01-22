@@ -1,13 +1,48 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
 body {
-  font: 100% Helvetica, sans-serif;
-  color: #333; }
+  font-family: 'nimbus-sans', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  color: black; }
+  body #top-container {
+    width: 100%;
+    height: 100%;
+    position: relative; }
+  body #left {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: cyan;
+    left: 0; }
+  body #right {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 20%;
+    background-color: grey;
+    opacity: 0.85;
+    right: 0;
+    z-index: 10; }
   body #mood-container {
     width: 100%;
-    margin: 40px 0px 0px 0px; }
+    text-align: center;
+    margin: 100px 0px 10px 0px; }
+    body #mood-container > img {
+      max-width: 220px; }
+    body #mood-container > span {
+      display: block;
+      text-transform: uppercase;
+      font-size: 36px; }
     body #mood-container > .mood {
-      margin: 0 auto;
-      width: 45%;
-      font-size: 2em; }
-      body #mood-container > .mood > img {
-        display: block;
-        max-width: 600px; }
+      width: 115px;
+      height: 115px;
+      margin: 10px 10px 10px 10px;
+      display: inline-block; }
+      body #mood-container > .mood span.count {
+        position: relative;
+        top: -72px; }

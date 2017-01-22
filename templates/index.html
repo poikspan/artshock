@@ -1,48 +1,102 @@
 <!doctype html>
 <html>
     <head>
+        <script src="https://use.typekit.net/ucp1tbm.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/color/jquery.color-2.1.2.js"></script>        
+        <script src="./js/jquery.min.js"></script>
+        <script src="./js/Chart.bundle.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.color-2.1.2.js"></script>        
         <script>
+            var dataObj = {
+                mood_url: 'http://www.imgbase.info/images/safe-wallpapers/photography/hdr/28628_hdr_view_from_mountain.jpg',
+                original_url: 'https://tunnetilastorage.blob.core.windows.net/images/image001.png',
+                fear: 0.201,
+                disgust: 0.03,
+                happiness: 0.1,
+                anger: 0.01,
+                surprise: 0.031,
+                sadness: 0.8482
+            };
             var socket = io.connect('http://'+window.location.host);
             socket.on('new-mood', function (data) {
-                addData(data.mood);
+                addData(dataObj);
                 console.log(data.mood);
             });
 
+            var options = {
+                tooltips: { enabled: false },
+                layout: { padding: { top: 8, right: 0, bottom: 0, left: 0 } },
+                title: { display: true, position: 'bottom', padding: 10, fontFamily: "'nimbus-sans', 'sans-serif'", fontStyle: 'normal', fontSize: 14 },
+                animation: { duration: 3000 },
+            };
+
             var MOOD_COLORSET = { anger: 'red', disgust: 'orange', fear: 'yellow', happiness: 'green', sadness: 'grey', surprise: 'cyan'};
+            var MOODS = [ 'anger', 'disgust', 'fear', 'happiness', 'sadness', 'surprise' ];
 
             function addData(data) {
-                var container = document.getElementById('mood-container');
-                $(container).empty().hide();
-                var div = document.createElement("div");
-                $(div).hide();
-                div.setAttribute("class","mood");
-                div.innerHTML = data.title;
-                if ( data.imageFilePath ) {
-                    var image = document.createElement("img");
-                    image.setAttribute('src', data.imageFilePath);
-                    div.appendChild(image);                    
-                }
-                if ( data.soundFilePath && !data.videoFilePath ) {
-                    var audio = new Audio(data.soundFilePath);
-                    audio.play();                     
-                }
-                if ( data.videoFilePath && !data.imageFilePath ) {
-                    $(container).html('<iframe width="640" height="360" src="'+data.videoFilePath+'" frameborder="0" allowfullscreen></iframe>');
-                }
-                container.appendChild(div);
-                console.log(data.moodType);
-                $('body').animate({ backgroundColor: MOOD_COLORSET[data.moodType] }, 1000);
+                var m;
+                var tmp = 0;
+                var dominantMood = '';
+                $(document).find('#left').css('background-image', 'url('+ data.mood_url +')');
+                var container = $(document).find('#mood-container');
+                container.empty();
+                container.append('<img src="'+data.original_url+'"/>');
                 $(container).show('slow');
-                $(div).show('slow');
+                for ( m in MOODS ) {
+                    var moodString = MOODS[m];
+                    var amount = data[moodString];
+                    //console.log('Moodit: ',moodString, ',' ,amount, ',',tmp, ',', dominantMood)
+                    if ( amount > tmp ) {
+                        tmp = amount;
+                        dominantMood = moodString;
+                    }
+                    var moodDiv = $('<div class="mood '+moodString+'"></div>');
+                    var canvas = $('<canvas id="canvas"></canvas>');
+                    moodDiv.append(canvas);
+                    moodDiv.append('<span class="count">'+Math.round(amount*100)+'</span>');
+                    options.title.text = moodString.toUpperCase();
+                    var ctx = canvas[0].getContext('2d')
+
+                    container.append(moodDiv);
+
+                    var pieData = {
+                        labels: [],
+                        datasets: [
+                            {
+                                backgroundColor: [
+                                    MOOD_COLORSET[moodString],
+                                    'rgba(224,224,224,1)',
+                                ],
+                                borderWidth: 0,
+                                data: [amount*100,100-(amount*100)],
+                            }
+                        ]
+                    };
+
+                    var myPie = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: pieData,
+                        options: options
+                    });
+
+                }
+                $('<span class="mood-type">'+dominantMood+'</span>').insertAfter(container.find('img'));
             }
+
+            $(function() {
+                addData(dataObj);
+            });
+
         </script>
         <link rel="stylesheet" type="text/css" href="./css/artshock.css">
     </head>
     <body>
-        <div id="mood-container">
+        <div id="top-container">
+            <div id="left"></div>
+            <div id="right">
+                <div id="mood-container" style="display: none;"></div>            
+            </div>
         </div>
     </body>
 </html>
