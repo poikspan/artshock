@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 var database = require('./app/config/database.js');
 var mood = require('./app/models/mood.js');
 var moodCtrl = require('./app/controllers/mood.js');
+var Buffer = require('buffer').Buffer;
 
 // Connnect to database
 mongoose.Promise = global.Promise;
@@ -61,6 +62,7 @@ io.on('connection', function (socket) {
               “sadness” > surullinen
               “surprise” > yllättynyt*/
             var moodString = '';
+            console.log('######Tyyppi: ',typeof Buffer.from);
             if (typeof Buffer.from === "function") {
                 // Node 5.10+
                 moodString = Buffer.from(message.messageText, 'base64');
