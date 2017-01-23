@@ -89,8 +89,9 @@ io.on('connection', function (socket) {
                         console.log(err);
                       }
                     });
+                    console.log('Bg image: ', result.imageFilePath);
                     moodsObj.mood_url = result.imageFilePath;
-                    console.log('Passing emit: ', moodsObj);
+                    console.log('Passing emit: ', moodsObj.mood_url);
                     socket.emit('new-mood', { mood: moodsObj });
                   }
                 })
