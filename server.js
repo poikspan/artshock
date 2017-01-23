@@ -79,7 +79,6 @@ io.on('connection', function (socket) {
               // Again query all moods for moodType but only fetch one offset by our random #
               Mood.findOne(queryParams).lean().exec(
                 function (err, result) {
-                console.log('Found: ', result);
                   if (!err && result) {
                     moodEntry = new MoodEntry();
                     moodEntry.moodType = result.moodType;
@@ -91,6 +90,7 @@ io.on('connection', function (socket) {
                       }
                     });
                     moodsObj.mood_url = result.imagefilePath;
+                    console.log('Passing emit: ', moodsObj);
                     socket.emit('new-mood', { mood: moodsObj });
                   }
                 })
