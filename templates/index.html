@@ -8,20 +8,22 @@
         <script src="./js/Chart.bundle.min.js"></script>
         <script type="text/javascript" src="./js/jquery.color-2.1.2.js"></script>        
         <script>
-            var dataObj = {
+            /*var dataObj = {
                 mood_url: 'http://www.imgbase.info/images/safe-wallpapers/photography/hdr/28628_hdr_view_from_mountain.jpg',
                 file: 'https://tunnetilastorage.blob.core.windows.net/images/image001.png',
-                fear: 0.201,
-                disgust: 0.03,
-                happiness: 0.1,
-                anger: 0.01,
-                surprise: 0.031,
-                sadness: 0.8482,
+                scores: {
+                    fear: 0.201,
+                    disgust: 0.03,
+                    happiness: 0.1,
+                    anger: 0.01,
+                    surprise: 0.031,
+                    sadness: 0.8482                    
+                },
                 prominent_emotion: 'sadness'
-            };
+            };*/
             var socket = io.connect('http://'+window.location.host);
             socket.on('new-mood', function (data) {
-                addData(dataObj);
+                addData(data.mood);
                 console.log(data.mood);
             });
 
@@ -46,7 +48,7 @@
                 $(container).show('slow');
                 for ( m in MOODS ) {
                     var moodString = MOODS[m];
-                    var amount = data[moodString];
+                    var amount = data.scores[moodString];
                     //console.log('Moodit: ',moodString, ',' ,amount, ',', dominantMood)
                     var moodDiv = $('<div class="mood '+moodString+'"></div>');
                     var canvas = $('<canvas id="canvas"></canvas>');
@@ -84,7 +86,7 @@
             }
 
             $(function() {
-                addData(dataObj);
+                //addData(dataObj);
             });
 
             function LightenDarkenColor(col, amt) {
