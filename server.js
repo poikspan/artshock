@@ -73,11 +73,13 @@ io.on('connection', function (socket) {
             var queryParams = { moodType: moodsObj.prominent_emotion };
             // Count all moods with moodType
             Mood.count(queryParams).exec(function (err, count) {
+              console.log('Count: ', count, ' for ', moodsObj.prominent_emotion);
               // Get a random entry
               var random = Math.floor(Math.random() * count)
               // Again query all moods for moodType but only fetch one offset by our random #
               Mood.findOne(queryParams).lean().exec(
                 function (err, result) {
+                console.log('Found: ', result);
                   if (!err && result) {
                     moodEntry = new MoodEntry();
                     moodEntry.moodType = result.moodType;
