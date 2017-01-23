@@ -61,17 +61,16 @@ io.on('connection', function (socket) {
               “happiness” > onnellinen
               “sadness” > surullinen
               “surprise” > yllättynyt*/
-            var moodString = '';
+            var moodsObj;
             try {
                 // Node 5.10+
-              moodString = Buffer.from(message.messageText, 'base64');              
+              moodsObj = JSON.parse(Buffer.from(message.messageText, 'base64'));              
             }
             catch(err) {
-                console.log('#Old node: ',err);
                 // older Node versions
-                moodString = new Buffer(message.messageText, 'base64');
+                moodsObj = JSON.parse(new Buffer(message.messageText, 'base64'));
             }
-            var queryParams = { moodType: moodString };
+            var queryParams = { moodType: moodsObj.prominent_emotion };
             // Count all moods with moodType
             Mood.count(queryParams).exec(function (err, count) {
               // Get a random entry
@@ -83,12 +82,14 @@ io.on('connection', function (socket) {
                     moodEntry = new MoodEntry();
                     moodEntry.moodType = result.moodType;
                     moodEntry.moodId = result._id;
+                    moodEntry.originalImage = moodsObj.file;
                     moodEntry.save(function(err) {
                       if ( err ) {
                         console.log(err);
                       }
                     });
-                    socket.emit('new-mood', { mood: result });
+                    moodsObj.mood_url = result.imagefilePath;
+                    socket.emit('new-mood', { mood: moodsObj });
                   }
                 })
             })

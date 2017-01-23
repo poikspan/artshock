@@ -10,13 +10,14 @@
         <script>
             var dataObj = {
                 mood_url: 'http://www.imgbase.info/images/safe-wallpapers/photography/hdr/28628_hdr_view_from_mountain.jpg',
-                original_url: 'https://tunnetilastorage.blob.core.windows.net/images/image001.png',
+                file: 'https://tunnetilastorage.blob.core.windows.net/images/image001.png',
                 fear: 0.201,
                 disgust: 0.03,
                 happiness: 0.1,
                 anger: 0.01,
                 surprise: 0.031,
-                sadness: 0.8482
+                sadness: 0.8482,
+                prominent_emotion: 'sadness'
             };
             var socket = io.connect('http://'+window.location.host);
             socket.on('new-mood', function (data) {
@@ -37,21 +38,16 @@
 
             function addData(data) {
                 var m;
-                var tmp = 0;
-                var dominantMood = '';
+                var dominantMood = data.prominent_emotion;
                 $(document).find('#left').css('background-image', 'url('+ data.mood_url +')');
                 var container = $(document).find('#mood-container');
                 container.empty();
-                container.append('<img src="'+data.original_url+'"/>');
+                container.append('<img src="'+data.file+'"/>');
                 $(container).show('slow');
                 for ( m in MOODS ) {
                     var moodString = MOODS[m];
                     var amount = data[moodString];
-                    //console.log('Moodit: ',moodString, ',' ,amount, ',',tmp, ',', dominantMood)
-                    if ( amount > tmp ) {
-                        tmp = amount;
-                        dominantMood = moodString;
-                    }
+                    //console.log('Moodit: ',moodString, ',' ,amount, ',', dominantMood)
                     var moodDiv = $('<div class="mood '+moodString+'"></div>');
                     var canvas = $('<canvas id="canvas"></canvas>');
                     moodDiv.append(canvas);

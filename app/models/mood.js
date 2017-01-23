@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
  
 var moodSchema = mongoose.Schema({
     moodType: {type: String, required: true},
-    title: {type: String, required: true},
+    title: {type: String, required: false},
     text: {type: String, required: false},
     soundfilePath: {type: String, required: false},
     videofilePath: {type: String, required: false},

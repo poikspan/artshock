@@ -13,8 +13,8 @@ var mongoose = require('mongoose');
 var moodEntrySchema = mongoose.Schema({
     date: { type: Date, default: Date.now },
     moodType: {type: String, required: true},
-    moodId: {type: String, required: true}
-    //img: { data: Buffer, contentType: String }
+    moodId: {type: String, required: true},
+    originalImage: {type: String, required: true}
 });
 
 module.exports = mongoose.model('MoodEntry', moodEntrySchema, 'MoodEntry');
