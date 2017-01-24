@@ -12,6 +12,10 @@ body {
     width: 100%;
     height: 100%;
     position: relative; }
+    body #top-container div.no-mood {
+      font-size: 48px;
+      text-align: center;
+      margin-top: 666px; }
   body #left {
     height: 100%;
     position: absolute;

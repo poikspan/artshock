@@ -17,8 +17,12 @@ var Buffer = require('buffer').Buffer;
 
 // Connnect to database
 mongoose.Promise = global.Promise;
-mongoose.connect(database.url);
-console.log("Connected to database.");
+mongoose.connect(database.url, function(err) {
+  if ( err ) {
+    console.log('####NO connection to database!');
+  }
+});
+console.log('Connected to database.');
 
 var env = process.env.NODE_ENV || 'dev';
 

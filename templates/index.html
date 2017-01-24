@@ -35,7 +35,7 @@
                 cutoutPercentage : 70,
             };
 
-            var MOOD_COLORSET = { anger: 'red', disgust: 'orange', fear: 'yellow', happiness: 'green', sadness: 'grey', surprise: 'cyan'};
+            var MOOD_COLORSET = { anger: '#FF0000', disgust: '#ff9900', fear: '#ffff00', happiness: '#008000', sadness: '#7F7F7F', surprise: '#00FFFF'};
             var MOODS = [ 'anger', 'disgust', 'fear', 'happiness', 'sadness', 'surprise' ];
 
             function addData(data) {
@@ -45,6 +45,7 @@
                 var container = $(document).find('#mood-container');
                 container.empty();
                 container.append('<img src="'+data.file+'"/>');
+                $('div.no-mood').hide();
                 $(container).show('slow');
                 for ( m in MOODS ) {
                     var moodString = MOODS[m];
@@ -113,6 +114,7 @@
     </head>
     <body>
         <div id="top-container">
+            <div class="no-mood">IN NO MOOD</div>
             <div id="left"></div>
             <div id="right">
                 <div id="mood-container" style="display: none;"></div>            
