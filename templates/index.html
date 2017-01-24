@@ -54,7 +54,7 @@
                     var moodDiv = $('<div class="mood '+moodString+'"></div>');
                     var canvas = $('<canvas id="canvas"></canvas>');
                     moodDiv.append(canvas);
-                    moodDiv.append('<span class="count">'+Math.round(amount*100)+'</span>');
+                    moodDiv.append('<span class="count">'+amount*100+'</span>');
                     options.title.text = moodString.toUpperCase();
                     var ctx = canvas[0].getContext('2d')
 
