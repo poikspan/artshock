@@ -41,8 +41,8 @@ body {
       text-transform: uppercase;
       font-size: 36px; }
     body #mood-container > .mood {
-      width: 115px;
-      height: 115px;
+      width: 145px;
+      height: 145px;
       margin: 10px 10px 10px 10px;
       display: inline-block; }
       body #mood-container > .mood span.count {
