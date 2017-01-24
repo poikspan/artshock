@@ -27,7 +27,7 @@ body {
     position: absolute;
     top: 0;
     width: 20%;
-    opacity: 0.85;
+    opacity: 0.75;
     right: 0;
     z-index: 10; }
   body #mood-container {
