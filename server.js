@@ -84,7 +84,6 @@ io.on('connection', function (socket) {
               Mood.findOne(queryParams).skip(random).exec(
                 function (err, result) {
                   if (!err && result) {
-                    console.log('Result: ', result);
                     moodEntry = new MoodEntry();
                     moodEntry.moodType = result.moodType;
                     moodEntry.moodId = result._id;
@@ -97,13 +96,14 @@ io.on('connection', function (socket) {
                     moodsObj.image_file = result.imageFilePath;
                     moodsObj.video_file = result.videoFilePath;
                     moodsObj.sound_file = result.soundFilePath;
+                    console.log('Emit: ', moodsObj);
                     socket.emit('new-mood', { mood: moodsObj });
                   }
                 })
             })
           }
       });
-  }, 5 * 1000);
+  }, 30 * 1000);
   // socket.on('other_event', function (data) {
   //     console.log(data);
   // });
