@@ -37,9 +37,12 @@
 
             var MOOD_COLORSET = { anger: '#FF0000', disgust: '#ff9900', fear: '#ffff00', happiness: '#008000', sadness: '#7F7F7F', surprise: '#00FFFF'};
             var MOODS = [ 'anger', 'disgust', 'fear', 'happiness', 'sadness', 'surprise' ];
+            var AUDIO;
 
             function addData(data) {
-                var m, audio;
+                var m;
+                AUDIO.pause();
+                AUDIO.currentTime = 0;
                 var dominantMood = data.prominent_emotion;
                 var container = $(document).find('#mood-container');
                 var left = $(document).find('#left');
@@ -52,8 +55,8 @@
                     left.html('<iframe src="https://www.youtube.com/embed/'+data.video_file+'?autoplay=1" frameborder="0" allowfullscreen></iframe>');
                 }
                 if ( data.sound_file && !data.video_file ) {
-                    audio = new Audio(data.sound_file);
-                    audio.play();                     
+                    AUDIO = new Audio(data.sound_file);
+                    AUDIO.play();                     
                 }
 
                 container.append('<img src="'+data.file+'"/>');
