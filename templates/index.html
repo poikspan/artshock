@@ -39,18 +39,20 @@
             var MOODS = [ 'anger', 'disgust', 'fear', 'happiness', 'sadness', 'surprise' ];
 
             function addData(data) {
-                var m;
+                var m, audio;
                 var dominantMood = data.prominent_emotion;
                 var container = $(document).find('#mood-container');
+                var left = $(document).find('#left');
                 container.empty();
+                left.css('background-image', 'none');
                 if ( data.image_file && data.image_file.trim().length > 0) {
-                    $(document).find('#left').css('background-image', 'url('+ data.image_file +')');
+                    left.css('background-image', 'url('+ data.image_file +')');
                 }                
                 else if ( data.video_file ) {
-                    $(document).find('#left').html('<iframe src="https://www.youtube.com/embed/'+data.video_file+'?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+                    left.html('<iframe src="https://www.youtube.com/embed/'+data.video_file+'?autoplay=1" frameborder="0" allowfullscreen></iframe>');
                 }
                 if ( data.sound_file && !data.video_file ) {
-                    var audio = new Audio(data.sound_file);
+                    audio = new Audio(data.sound_file);
                     audio.play();                     
                 }
 
