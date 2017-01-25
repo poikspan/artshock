@@ -81,7 +81,7 @@ io.on('connection', function (socket) {
               // Get a random entry
               var random = Math.floor(Math.random() * count)
               // Again query all moods for moodType but only fetch one offset by our random #
-              Mood.findOne(queryParams).lean().exec(
+              Mood.findOne().skip(random).exec(
                 function (err, result) {
                   if (!err && result) {
                     moodEntry = new MoodEntry();
