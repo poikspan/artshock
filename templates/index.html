@@ -41,17 +41,17 @@
             function addData(data) {
                 var m;
                 var dominantMood = data.prominent_emotion;
-                if ( data.image_file ) {
+                var container = $(document).find('#mood-container');
+                container.empty();
+                if ( data.image_file && data.image_file.trim().length > 0) {
                     $(document).find('#left').css('background-image', 'url('+ data.image_file +')');
+                }                
+                else if ( data.video_file ) {
+                    $(document).find('#left').html('<iframe src="https://www.youtube.com/embed/'+data.video_file+'?autoplay=1" frameborder="0" allowfullscreen></iframe>');
                 }
                 if ( data.sound_file && !data.video_file ) {
                     var audio = new Audio(data.sound_file);
                     audio.play();                     
-                }
-                var container = $(document).find('#mood-container');
-                container.empty();
-                if ( data.video_file && !data.image_file ) {
-                    $(document).find('#left').html('<iframe src="https://www.youtube.com/embed/'+data.video_file+'?autoplay=1" frameborder="0" allowfullscreen></iframe>');
                 }
 
                 container.append('<img src="'+data.file+'"/>');
