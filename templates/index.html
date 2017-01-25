@@ -9,7 +9,7 @@
         <script type="text/javascript" src="./js/jquery.color-2.1.2.js"></script>        
         <script>
             /*var dataObj = {
-                mood_url: 'http://www.imgbase.info/images/safe-wallpapers/photography/hdr/28628_hdr_view_from_mountain.jpg',
+                image_file: 'http://www.imgbase.info/images/safe-wallpapers/photography/hdr/28628_hdr_view_from_mountain.jpg',
                 file: 'https://tunnetilastorage.blob.core.windows.net/images/image001.png',
                 scores: {
                     fear: 0.201,
@@ -41,9 +41,19 @@
             function addData(data) {
                 var m;
                 var dominantMood = data.prominent_emotion;
-                $(document).find('#left').css('background-image', 'url('+ data.mood_url +')');
+                if ( data.image_file ) {
+                    $(document).find('#left').css('background-image', 'url('+ data.image_file +')');
+                }
+                if ( data.sound_file && !data.video_file ) {
+                    var audio = new Audio(data.soundFilePath);
+                    audio.play();                     
+                }
                 var container = $(document).find('#mood-container');
                 container.empty();
+                if ( data.video_file && !data.image_file ) {
+                    $(document).find('#left').html('<iframe src="https://www.youtube.com/embed/'+data.video_file+'?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+                }
+
                 container.append('<img src="'+data.file+'"/>');
                 $('div.no-mood').hide();
                 $(container).show('slow');
@@ -88,22 +98,22 @@
 
             function LightenDarkenColor(col, amt) {
                 var usePound = false;
-                    if (col[0] == "#") {
-                        col = col.slice(1);
-                        usePound = true;
-                    }
-                    var num = parseInt(col,16);
-                    var r = (num >> 16) + amt;
-                    if (r > 255) r = 255;
-                    else if  (r < 0) r = 0;
-                    var b = ((num >> 8) & 0x00FF) + amt;
-                    if (b > 255) b = 255;
-                    else if  (b < 0) b = 0;
-                    var g = (num & 0x0000FF) + amt;
-                    if (g > 255) g = 255;
-                    else if (g < 0) g = 0;
-                    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+                if (col[0] == "#") {
+                    col = col.slice(1);
+                    usePound = true;
                 }
+                var num = parseInt(col,16);
+                var r = (num >> 16) + amt;
+                if (r > 255) r = 255;
+                else if  (r < 0) r = 0;
+                var b = ((num >> 8) & 0x00FF) + amt;
+                if (b > 255) b = 255;
+                else if  (b < 0) b = 0;
+                var g = (num & 0x0000FF) + amt;
+                if (g > 255) g = 255;
+                else if (g < 0) g = 0;
+                return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+            }
 
         </script>
         <link rel="stylesheet" type="text/css" href="./css/artshock.css">
