@@ -84,6 +84,7 @@ io.on('connection', function (socket) {
               Mood.findOne(queryParams).skip(random).exec(
                 function (err, result) {
                   if (!err && result) {
+                    console.log('Result: ', result);
                     moodEntry = new MoodEntry();
                     moodEntry.moodType = result.moodType;
                     moodEntry.moodId = result._id;
