@@ -45,7 +45,7 @@
                     $(document).find('#left').css('background-image', 'url('+ data.image_file +')');
                 }
                 if ( data.sound_file && !data.video_file ) {
-                    var audio = new Audio(data.soundFilePath);
+                    var audio = new Audio(data.sound_file);
                     audio.play();                     
                 }
                 var container = $(document).find('#mood-container');
