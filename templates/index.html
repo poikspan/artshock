@@ -41,8 +41,10 @@
 
             function addData(data) {
                 var m;
-                AUDIO.pause();
-                AUDIO.currentTime = 0;
+                if ( AUDIO ) {
+                    AUDIO.pause();
+                    AUDIO.currentTime = 0;
+                }
                 var dominantMood = data.prominent_emotion;
                 var container = $(document).find('#mood-container');
                 var left = $(document).find('#left');
