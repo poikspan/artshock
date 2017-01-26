@@ -48,6 +48,7 @@
                 var dominantMood = data.prominent_emotion;
                 var container = $(document).find('#mood-container');
                 var left = $(document).find('#left');
+                left.empty();
                 container.empty();
                 left.css('background-image', 'none');
                 if ( data.image_file && data.image_file.trim().length > 0) {
